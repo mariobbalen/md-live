@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visualizador — Markdown</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-  :root {
+:root {
     --bg: #F7F5F0;
     --surface: #FFFFFF;
     --border: #E2DED7;
@@ -26,38 +22,43 @@
     --rule-color: #D8D3CA;
     --btn-bg: #1C1915;
     --btn-text: #F7F5F0;
-  }
+}
 
-  @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
     :root {
-      --bg: #111009;
-      --surface: #1A1812;
-      --border: #2E2B22;
-      --text-primary: #EDE8DF;
-      --text-secondary: #A89F91;
-      --text-muted: #6B6358;
-      --accent: #C8BEB2;
-      --link: #C8A882;
-      --code-bg: #221F17;
-      --code-border: #3A3629;
-      --quote-border: #4A4438;
-      --quote-bg: #1E1C14;
-      --rule-color: #2E2B22;
-      --btn-bg: #EDE8DF;
-      --btn-text: #111009;
+        --bg: #111009;
+        --surface: #1A1812;
+        --border: #2E2B22;
+        --text-primary: #EDE8DF;
+        --text-secondary: #A89F91;
+        --text-muted: #6B6358;
+        --accent: #C8BEB2;
+        --link: #C8A882;
+        --code-bg: #221F17;
+        --code-border: #3A3629;
+        --quote-border: #4A4438;
+        --quote-bg: #1E1C14;
+        --rule-color: #2E2B22;
+        --btn-bg: #EDE8DF;
+        --btn-text: #111009;
     }
-  }
+}
 
-  html, body {
+html,
+body {
     height: 100%;
     font-family: 'Lora', Georgia, serif;
     background: var(--bg);
     color: var(--text-primary);
-  }
+}
 
-  body { display: flex; flex-direction: column; min-height: 100vh; }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
-  header {
+header {
     padding: 1.75rem 3rem;
     display: flex;
     align-items: center;
@@ -67,29 +68,29 @@
     top: 0;
     background: var(--bg);
     z-index: 10;
-  }
+}
 
-  .logo {
+.logo {
     font-size: 1.1rem;
     font-weight: 500;
     letter-spacing: 0.04em;
     color: var(--text-primary);
     text-decoration: none;
-  }
+}
 
-  .logo span {
+.logo span {
     color: var(--text-muted);
     font-weight: 400;
     font-style: italic;
-  }
+}
 
-  .header-actions {
+.header-actions {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
+}
 
-  .btn-back {
+.btn-back {
     background: none;
     border: 1px solid var(--border);
     color: var(--text-secondary);
@@ -101,14 +102,14 @@
     transition: border-color 0.15s, color 0.15s;
     text-decoration: none;
     display: inline-block;
-  }
+}
 
-  .btn-back:hover {
+.btn-back:hover {
     border-color: var(--text-muted);
     color: var(--text-primary);
-  }
+}
 
-  .btn-copy {
+.btn-copy {
     background: var(--btn-bg);
     color: var(--btn-text);
     border: none;
@@ -118,12 +119,17 @@
     cursor: pointer;
     border-radius: 3px;
     transition: opacity 0.2s, transform 0.1s;
-  }
+}
 
-  .btn-copy:hover { opacity: 0.85; }
-  .btn-copy:active { transform: scale(0.98); }
+.btn-copy:hover {
+    opacity: 0.85;
+}
 
-  .progress-bar {
+.btn-copy:active {
+    transform: scale(0.98);
+}
+
+.progress-bar {
     position: fixed;
     top: 0;
     left: 0;
@@ -132,54 +138,85 @@
     width: 0%;
     transition: width 0.1s;
     z-index: 100;
-  }
+}
 
-  main {
+main {
     flex: 1;
     padding: 4rem 3rem 6rem;
     max-width: 740px;
     width: 100%;
     margin: 0 auto;
-  }
+}
 
-  /* ─── Markdown content styles ─── */
+/* ─── Markdown content styles ─── */
 
-  #content h1, #content h2, #content h3,
-  #content h4, #content h5, #content h6 {
+#content h1,
+#content h2,
+#content h3,
+#content h4,
+#content h5,
+#content h6 {
     font-family: 'Lora', serif;
     color: var(--text-primary);
     line-height: 1.3;
     margin-top: 2.5rem;
     margin-bottom: 0.75rem;
     font-weight: 600;
-  }
+}
 
-  #content h1 { font-size: 2.1rem; margin-top: 0; letter-spacing: -0.02em; }
-  #content h2 { font-size: 1.5rem; letter-spacing: -0.01em; border-bottom: 1px solid var(--rule-color); padding-bottom: 0.4rem; }
-  #content h3 { font-size: 1.2rem; }
-  #content h4 { font-size: 1rem; font-weight: 500; color: var(--text-secondary); }
+#content h1 {
+    font-size: 2.1rem;
+    margin-top: 0;
+    letter-spacing: -0.02em;
+}
 
-  #content p {
+#content h2 {
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+    border-bottom: 1px solid var(--rule-color);
+    padding-bottom: 0.4rem;
+}
+
+#content h3 {
+    font-size: 1.2rem;
+}
+
+#content h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+#content p {
     font-size: 1.05rem;
     line-height: 1.85;
     color: var(--text-primary);
     margin-bottom: 1.25rem;
-  }
+}
 
-  #content strong { font-weight: 600; color: var(--text-primary); }
-  #content em { font-style: italic; color: var(--text-secondary); }
+#content strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
 
-  #content a {
+#content em {
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+#content a {
     color: var(--link);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
     transition: opacity 0.15s;
-  }
+}
 
-  #content a:hover { opacity: 0.7; }
+#content a:hover {
+    opacity: 0.7;
+}
 
-  #content code {
+#content code {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.82em;
     background: var(--code-bg);
@@ -187,68 +224,76 @@
     padding: 0.15em 0.45em;
     border-radius: 3px;
     color: var(--text-primary);
-  }
+}
 
-  #content pre {
+#content pre {
     background: var(--code-bg);
     border: 1px solid var(--code-border);
     border-radius: 4px;
     padding: 1.25rem 1.5rem;
     overflow-x: auto;
     margin-bottom: 1.5rem;
-  }
+}
 
-  #content pre code {
+#content pre code {
     background: none;
     border: none;
     padding: 0;
     font-size: 0.85rem;
     line-height: 1.75;
-  }
+}
 
-  #content blockquote {
+#content blockquote {
     border-left: 3px solid var(--quote-border);
     background: var(--quote-bg);
     padding: 1rem 1.5rem;
     margin: 1.5rem 0;
     border-radius: 0 4px 4px 0;
-  }
+}
 
-  #content blockquote p {
+#content blockquote p {
     color: var(--text-secondary);
     font-style: italic;
     margin-bottom: 0;
-  }
+}
 
-  #content ul, #content ol {
+#content ul,
+#content ol {
     padding-left: 1.5rem;
     margin-bottom: 1.25rem;
-  }
+}
 
-  #content li {
+#content li {
     font-size: 1.05rem;
     line-height: 1.8;
     color: var(--text-primary);
     margin-bottom: 0.2rem;
-  }
+}
 
-  #content ul li::marker { color: var(--text-muted); }
-  #content ol li::marker { color: var(--text-muted); font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
+#content ul li::marker {
+    color: var(--text-muted);
+}
 
-  #content hr {
+#content ol li::marker {
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+}
+
+#content hr {
     border: none;
     border-top: 1px solid var(--rule-color);
     margin: 2.5rem 0;
-  }
+}
 
-  #content table {
+#content table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
-  }
+}
 
-  #content th {
+#content th {
     text-align: left;
     padding: 0.6rem 1rem;
     border-bottom: 2px solid var(--border);
@@ -258,18 +303,20 @@
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-family: 'JetBrains Mono', monospace;
-  }
+}
 
-  #content td {
+#content td {
     padding: 0.65rem 1rem;
     border-bottom: 1px solid var(--border);
     color: var(--text-primary);
     vertical-align: top;
-  }
+}
 
-  #content tr:last-child td { border-bottom: none; }
+#content tr:last-child td {
+    border-bottom: none;
+}
 
-  .empty-state {
+.empty-state {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -277,36 +324,36 @@
     min-height: 50vh;
     gap: 1rem;
     text-align: center;
-  }
+}
 
-  .empty-state p {
+.empty-state p {
     color: var(--text-muted);
     font-size: 1rem;
     font-style: italic;
-  }
+}
 
-  .empty-state a {
+.empty-state a {
     font-size: 0.85rem;
     font-family: 'JetBrains Mono', monospace;
     color: var(--text-secondary);
     text-decoration: underline;
     text-underline-offset: 3px;
-  }
+}
 
-  footer {
+footer {
     padding: 1.25rem 3rem;
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: center;
-  }
+}
 
-  footer p {
+footer p {
     font-size: 0.75rem;
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
-  }
+}
 
-  .toast {
+.toast {
     position: fixed;
     bottom: 2rem;
     left: 50%;
@@ -320,83 +367,27 @@
     opacity: 0;
     transition: opacity 0.2s, transform 0.2s;
     pointer-events: none;
-  }
+}
 
-  .toast.show {
+.toast.show {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
-  }
+}
 
-  @media (max-width: 600px) {
-    header { padding: 1.25rem 1.25rem; }
-    main { padding: 2.5rem 1.25rem 4rem; }
-    footer { padding: 1rem 1.25rem; }
-    #content h1 { font-size: 1.6rem; }
-  }
-</style>
-</head>
-<body>
+@media (max-width: 600px) {
+    header {
+        padding: 1.25rem 1.25rem;
+    }
 
-<div class="progress-bar" id="progress"></div>
+    main {
+        padding: 2.5rem 1.25rem 4rem;
+    }
 
-<header>
-  <a class="logo" href="#">mark<span>down</span></a>
-  <div class="header-actions">
-    <a class="btn-back" href="editor.html">← editar</a>
-    <button class="btn-copy" onclick="copyHTML()">copiar HTML</button>
-  </div>
-</header>
+    footer {
+        padding: 1rem 1.25rem;
+    }
 
-<main>
-  <div id="content"></div>
-</main>
-
-<footer>
-  <p>renderizado com marked.js</p>
-</footer>
-
-<div class="toast" id="toast"></div>
-
-<script>
-  const md = sessionStorage.getItem('md_content');
-  const content = document.getElementById('content');
-
-  if (!md) {
-    content.innerHTML = `
-      <div class="empty-state">
-        <p>Nenhum conteúdo para exibir.</p>
-        <a href="editor.html">← voltar ao editor</a>
-      </div>`;
-  } else {
-    marked.setOptions({
-      breaks: true,
-      gfm: true
-    });
-    content.innerHTML = marked.parse(md);
-  }
-
-  window.addEventListener('scroll', () => {
-    const scrolled = window.scrollY;
-    const max = document.body.scrollHeight - window.innerHeight;
-    const pct = max > 0 ? (scrolled / max) * 100 : 0;
-    document.getElementById('progress').style.width = pct + '%';
-  });
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2200);
-  }
-
-  function copyHTML() {
-    const html = content.innerHTML;
-    navigator.clipboard.writeText(html).then(() => {
-      showToast('HTML copiado!');
-    }).catch(() => {
-      showToast('Erro ao copiar.');
-    });
-  }
-</script>
-</body>
-</html>
+    #content h1 {
+        font-size: 1.6rem;
+    }
+}

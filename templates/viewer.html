@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizador — Markdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" type="text/css" href="{{ static_url("viewer.css") }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+</head>
+
+<body>
+
+  <div class="progress-bar" id="progress"></div>
+
+  <header>
+    <a class="logo" href="#">md<span>live</span></a>
+    <div class="header-actions">
+      <a class="btn-back" href="editor" onclick="sendBack()">← editar</a>
+      <button class="btn-copy" onclick="copyHTML()">copiar HTML</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="content"></div>
+  </main>
+
+  <footer>
+    <p>renderizado com marked.js</p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="{{ static_url("viewer.js") }}" type="text/javascript"></script>
+</body>
+
+</html>

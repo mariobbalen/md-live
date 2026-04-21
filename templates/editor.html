@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor — Markdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" type="text/css" href="{{ static_url("editor.css") }}">
+</head>
+
+<body>
+
+  <header>
+    <a class="logo" href="#">md<span>live</span></a>
+    <span class="header-hint">editor → visualizador</span>
+  </header>
+
+  <main>
+    <span class="editor-label">escreva seu markdown</span>
+
+    <div class="editor-wrap">
+      <div class="toolbar">
+        <button class="toolbar-btn" onclick="wrap('**','**')" title="Negrito">B</button>
+        <button class="toolbar-btn" onclick="wrap('*','*')" title="Itálico" style="font-style:italic">I</button>
+        <button class="toolbar-btn" onclick="wrap('`','`')" title="Código">{ }</button>
+        <div class="toolbar-sep"></div>
+        <button class="toolbar-btn" onclick="prefixText('# ')" title="H1">H1</button>
+        <button class="toolbar-btn" onclick="prefixText('## ')" title="H2">H2</button>
+        <button class="toolbar-btn" onclick="prefixText('### ')" title="H3">H3</button>
+        <div class="toolbar-sep"></div>
+        <button class="toolbar-btn" onclick="prefixText('- ')" title="Lista">— lista</button>
+        <button class="toolbar-btn" onclick="prefixText('> ')" title="Citação">" citar</button>
+        <button class="toolbar-btn" onclick="prefixText('---\n')" title="Divisor">—</button>
+        <div class="toolbar-sep"></div>
+        <button class="toolbar-btn" onclick="clearEditor()" title="Limpar">limpar</button>
+      </div>
+      <textarea id="editor" spellcheck="false" placeholder="# Título
+
+Comece a escrever em **Markdown** aqui...
+
+- item 1
+- item 2
+
+> Uma citação elegante.
+
+`código inline`"></textarea>
+    </div>
+
+    <div class="footer-row">
+      <span class="char-count" id="char-count">0 caracteres · 0 palavras</span>
+      <a href="preview"><button class="btn-viewer">visualizar →</button></a>
+    </div>
+  </main>
+
+  <footer>
+    <p>cole, escreva e clique em visualizar</p>
+  </footer>
+
+    <script src="{{ static_url("editor.js") }}" type="text/javascript"></script>
+</body>
+
+</html>
