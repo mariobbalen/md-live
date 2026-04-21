@@ -5,54 +5,74 @@ import tornado.web
 import tornado.websocket
 import json
 
-clients = set()
-document = ""
+# como os clients vivem no escopo global, mesmo ao fechar o socket, eles estao salvos como uma variavel normal
+room_clients = {}
+room_contents = {}
 BASE_DIR = Path(__file__).resolve().parent
+
+# define os handlers, que serao as coisas as serem renderizadas (websocket incluso)
+class MainHandler(tornado.web.RequestHandler):
+    def get(self):
+        self.render("index.html")
 
 class EditorHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("editor.html")
+        # busca nas variaveis (tanto query como no body do post)
+        room_id = self.get_argument("room", "default")
+        self.render("editor.html", room=room_id)
 
-class PreviewHandler(tornado.web.RequestHandler):
+class ViewerHandler(tornado.web.RequestHandler):
     def get(self):
-        self.render("viewer.html")
+        room_id = self.get_argument("room", "default")
+        self.render("viewer.html", room=room_id)
 
 class MarkdownSocket(tornado.websocket.WebSocketHandler):
+    # permite qualquer conexao independente da origem (n protege de Cross-Site WebSocket Hijacking)
     def check_origin(self, origin):
-        return True  # allow connections (dev only)
+        return True 
 
     def open(self):
-        print("WebSocket OPENED")
-        clients.add(self)
-
+        self.room_id = self.get_argument("room", "default")
+        print(f"WebSocket OPENED {self.room_id}")
+        
+        # se for novo, cria
+        if self.room_id not in room_clients:
+            room_clients[self.room_id] = set()
+            room_contents[self.room_id] = ""
+            
+        room_clients[self.room_id].add(self)
+        
+        # manda o conteudo pro room especifico, dizendo que eh a primeira msg (init)
         self.write_message(json.dumps({
             "type": "init",
-            "content": document
+            "content": room_contents[self.room_id]
         }))
 
     def on_message(self, message):
-        global document
         data = json.loads(message)
-
-        if data["type"] == "update":
-            document = data["content"]
-
-            for client in clients:
-                if client != self:
+        if data.get("type") == "update":
+            room_contents[self.room_id] = data.get("content", "")
+            
+            # manda apenas para quem esta no mesmo room
+            for client in room_clients[self.room_id]:
+                # exceto para quem escreveu
+                if client is not self:
                     client.write_message(json.dumps({
                         "type": "update",
-                        "content": document
+                        "content": room_contents[self.room_id]
                     }))
 
     def on_close(self):
-        print("WebSocket CLOSED")
-        clients.remove(self)
+        print(f"WebSocket CLOSED {self.room_id}")
+        if self.room_id in room_clients:
+            room_clients[self.room_id].discard(self) # Use discard to avoid errors if already gone
 
 
 def make_app():
     handlers = [
+        (r"/", MainHandler),
         (r"/editor", EditorHandler),
-        (r"/preview", PreviewHandler),
+        (r"/viewer", ViewerHandler),
         (r"/ws", MarkdownSocket)
     ]
 

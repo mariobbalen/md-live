@@ -59,15 +59,11 @@ body {
 }
 
 header {
-    padding: 1.75rem 3rem;
+    padding: 0.75rem 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: var(--bg);
-    z-index: 10;
 }
 
 .logo {
@@ -341,7 +337,7 @@ main {
 }
 
 footer {
-    padding: 1.25rem 3rem;
+    padding: 0.6rem 1.5rem;
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: center;
@@ -351,6 +347,7 @@ footer p {
     font-size: 0.75rem;
     color: var(--text-muted);
     font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
 }
 
 .toast {

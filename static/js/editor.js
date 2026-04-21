@@ -1,6 +1,10 @@
 const editor = document.getElementById('editor');
 const charCount = document.getElementById('char-count');
-const ws = new WebSocket("ws://localhost:8888/ws");
+
+//pega o codigo do room pra usar no endpoint do ws
+const urlParams = new URLSearchParams(window.location.search);
+const roomCode = urlParams.get('room') || 'default';
+const ws = new WebSocket(`ws://${window.location.host}/ws?room=${roomCode}`)
 
 let isOpen = false;
 let debounceTimer = null;
@@ -58,7 +62,7 @@ ws.onerror = (err) => {
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
-    // se for ao abrir a tela, popula a text area
+    // ao abrir a tela, popula a text area com o que existe no ws
     if (data.type === "init") {
         editor.value = data.content;
         lastSentContent = data.content;

@@ -4,17 +4,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editor — Markdown</title>
+  <title>Editor — mdLive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" type="text/css" href="{{ static_url("editor.css") }}">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" type="text/css" href="{{ static_url("css/editor.css") }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ static_url("mdLive-icon-32x32.png") }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ static_url("mdLive-icon-16x16.png") }}">
 </head>
 
 <body>
 
   <header>
-    <a class="logo" href="#">md<span>live</span></a>
-    <span class="header-hint">editor → visualizador</span>
+    <a class="logo" href="/">md<span>Live</span></a>
+    <h4>{{room}}</h4>
   </header>
 
   <main>
@@ -50,15 +53,15 @@ Comece a escrever em **Markdown** aqui...
 
     <div class="footer-row">
       <span class="char-count" id="char-count">0 caracteres · 0 palavras</span>
-      <a href="preview"><button class="btn-viewer">visualizar →</button></a>
+      <a href="viewer?room={{room}}"><button class="btn-viewer">visualizar →</button></a>
     </div>
   </main>
 
   <footer>
-    <p>cole, escreva e clique em visualizar</p>
+    <p>markdown <3</p>
   </footer>
 
-    <script src="{{ static_url("editor.js") }}" type="text/javascript"></script>
+  <script src="{{ static_url("js/editor.js") }}" type="text/javascript"></script>
 </body>
 
 </html>

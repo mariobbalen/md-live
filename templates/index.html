@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home — mdLive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" type="text/css" href="{{ static_url("css/index.css") }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ static_url("mdLive-icon-32x32.png") }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ static_url("mdLive-icon-16x16.png") }}">
+</head>
+
+<body>
+
+    <header>
+        <a class="logo" href="#">md<span>Live</span></a>
+    </header>
+
+    <main>
+        <div class="welcome-container">
+            <h1>Bem-vindo</h1>
+            <p>Entre em uma sala para começar a colaborar em documentos Markdown em tempo real.</p>
+
+            <form class="room-form" onsubmit="enterRoom(event)">
+                <div class="input-group">
+                    <label for="roomCode">Código da sala</label>
+                    <input type="text" id="roomCode" name="roomCode" placeholder="Digite o código..." autocomplete="off"
+                        maxlength="12" required>
+                </div>
+                <button type="submit" class="btn-enter">Entrar na sala</button>
+            </form>
+
+            <div class="divider"><span>ou</span></div>
+
+            <button class="btn-create" onclick="createRoom()">Criar nova sala</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>markdown <3</p>
+    </footer>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="{{ static_url("js/index.js") }}" type="text/javascript"></script>
+</body>
+
+</html>

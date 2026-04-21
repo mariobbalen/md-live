@@ -1,5 +1,9 @@
 const content = document.getElementById('content');
-const ws = new WebSocket("ws://localhost:8888/ws");
+
+//pega o codigo do room pra usar no endpoint do ws
+const urlParams = new URLSearchParams(window.location.search);
+const roomCode = urlParams.get('room') || 'default';
+const ws = new WebSocket(`ws://${window.location.host}/ws?room=${roomCode}`)
 
 window.addEventListener('scroll', () => {
     const scrolled = window.scrollY;
@@ -27,8 +31,8 @@ function copyHTML() {
 ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
+    // se abriu, ou atualizou, ajusta o conteudo
     if (data.type === "init" || data.type === "update") {
-        // avoid unnecessary overwrite (helps cursor stability)
         content.innerHTML = marked.parse(data.content);
     }
 };
