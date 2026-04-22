@@ -67,7 +67,11 @@ ws.onmessage = (event) => {
         editor.value = data.content;
         lastSentContent = data.content;
         updateCount();
-    }
+    } else if (data.type === "update") {
+     editor.value = data.content;
+     lastSentContent = data.content;
+     updateCount();
+    }   
 };
 
 function sendToWs(content) {
