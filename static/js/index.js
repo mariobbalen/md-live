@@ -39,7 +39,6 @@ function createRoom() {
     }, 1000);
 }
 
-// Auto-uppercase input
 document.getElementById('roomCode').addEventListener('input', function (e) {
     this.value = this.value.toUpperCase();
 });

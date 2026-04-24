@@ -29,7 +29,6 @@ function wrap(before, after) {
 }
 
 function prefixText(str) {
-    console.log("entrou")
     const start = editor.selectionStart;
     const lineStart = editor.value.lastIndexOf('\n', start - 1) + 1;
     editor.setRangeText(str, lineStart, lineStart, 'end');
@@ -46,17 +45,17 @@ function clearEditor() {
 }
 
 ws.onopen = () => {
-    console.log("WebSocket connected");
+    console.log("WebSocket conectado.");
     isOpen = true;
 };
 
 ws.onclose = () => {
-    console.log("WebSocket closed");
+    console.log("WebSocket fechado.");
     isOpen = false;
 };
 
 ws.onerror = (err) => {
-    console.error("WebSocket error:", err);
+    console.error("WebSocket erro:", err);
 };
 
 ws.onmessage = (event) => {
@@ -97,7 +96,6 @@ editor.addEventListener("input", () => {
             return;
 
         sendToWs(content);
-
 
     }, 100); // o delay de envio para o server
 });

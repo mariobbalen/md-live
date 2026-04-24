@@ -65,7 +65,7 @@ class MarkdownSocket(tornado.websocket.WebSocketHandler):
     def on_close(self):
         print(f"WebSocket FECHADO {self.room_id}")
         if self.room_id in room_clients:
-            room_clients[self.room_id].discard(self) # Use discard to avoid errors if already gone
+            room_clients[self.room_id].discard(self)
 
 
 def make_app():
