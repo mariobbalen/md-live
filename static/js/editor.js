@@ -63,15 +63,11 @@ ws.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
     // ao abrir a tela, popula a text area com o que existe no ws
-    if (data.type === "init") {
+    if (data.type === "init" || data.type === "update") {
         editor.value = data.content;
         lastSentContent = data.content;
         updateCount();
-    } else if (data.type === "update") {
-     editor.value = data.content;
-     lastSentContent = data.content;
-     updateCount();
-    }   
+    }
 };
 
 function sendToWs(content) {
