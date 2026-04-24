@@ -1,10 +1,10 @@
-# md-live
+# mdLive
 
 <div align="center">
 
 **Um editor de Markdown colaborativo em tempo real**
 
-[Sobre](#sobre) • [Requisitos](#requisitos) • [Instalação](#instalação) • [Execução](#execução) • [Recursos](#recursos) • [Desenvolvedores](#desenvolvedores)
+[Sobre](#sobre) • [Desenvolvedores](#desenvolvedores) • [Requisitos](#requisitos) • [Instalação](#instalação) • [Execução](#execução)
 
 </div>
 
@@ -12,7 +12,7 @@
 
 ## Sobre
 
-**md-live** é uma aplicação web moderna que permite editar Markdown em tempo real de forma colaborativa. Múltiplos usuários podem se conectar a uma mesma "sala" e editar documentos Markdown simultaneamente, com sincronização automática através de WebSocket.
+**mdLive** é uma aplicação web moderna que permite editar Markdown em tempo real de forma colaborativa. Múltiplos usuários podem se conectar a uma mesma "sala" e editar documentos Markdown simultaneamente, com sincronização automática através de WebSocket.
 
 O projeto utiliza:
 - **Backend**: Servidor Tornado (Python) com suporte a WebSocket
@@ -27,30 +27,35 @@ O projeto utiliza:
 - ✅ **Interface intuitiva**: Interface limpa e responsiva
 - ✅ **Salas dinâmicas**: Crie quantas salas quiser dinamicamente
 
----
+### Como Funciona
+
+1. **Servidor Tornado**: Aguarda conexões HTTP e WebSocket na porta 8888
+2. **Salas (Rooms)**: Cada sala possui seu próprio conteúdo Markdown e lista de clientes
+3. **WebSocket**: Sincroniza mudanças em tempo real entre clientes da mesma sala
+4. **Cliente**: Interface web que se conecta ao servidor via WebSocket
+
+## Desenvolvedores
+
+| Nome | RA |
+|------|--------|
+| Pablo Henrique Strücker Sarturi | 1136331 | 
+| Mário Bernardo Balen | 1136196 | 
+
 
 ## Requisitos
 
 Para executar este projeto, você precisará de:
 
-- **Python 3.8+** (recomendado 3.10 ou superior)
+- **Python 3.10**
 - **pip** (gerenciador de pacotes Python)
 - **Tornado 6.0+** (framework web com suporte a WebSocket)
-
-**Navegadores suportados:**
-- Chrome/Chromium 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
-
----
 
 ## Instalação
 
 ### 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/md-live.git
+git clone https://github.com/mariobbalen/md-live
 cd md-live
 ```
 
@@ -66,19 +71,11 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 3. Instalar as dependências
+### 3. Instalar a dependência do Tornado
 
 ```bash
 pip install tornado
 ```
-
-Ou, se você tem um arquivo `requirements.txt`:
-
-```bash
-pip install -r requirements.txt
-```
-
----
 
 ## Execução
 
@@ -90,7 +87,7 @@ python server.py
 
 Você verá a mensagem:
 ```
-Server running on http://localhost:8888
+Servidor rodando em http://localhost:8888
 ```
 
 ### Acessar a aplicação
@@ -113,77 +110,3 @@ http://localhost:8888/editor?room=projeto-novo
 ### Parar o servidor
 
 Pressione `Ctrl+C` no terminal onde o servidor está rodando.
-
----
-
-## Recursos
-
-### Estrutura do Projeto
-
-```
-md-live/
-├── server.py           # Servidor Tornado principal
-├── templates/          # Templates HTML
-│   ├── index.html     # Página inicial
-│   ├── editor.html    # Interface do editor
-│   └── viewer.html    # Visualizador de markdown
-├── static/            # Arquivos estáticos
-│   ├── css/           # Estilos CSS
-│   │   ├── index.css
-│   │   ├── editor.css
-│   │   └── viewer.css
-│   └── js/            # Scripts JavaScript
-│       ├── index.js
-│       ├── editor.js
-│       └── viewer.js
-├── example_lorem.md   # Arquivo de exemplo
-└── README.md          # Este arquivo
-```
-
-### Como Funciona
-
-1. **Servidor Tornado**: Aguarda conexões HTTP e WebSocket na porta 8888
-2. **Salas (Rooms)**: Cada sala possui seu próprio conteúdo Markdown e lista de clientes
-3. **WebSocket**: Sincroniza mudanças em tempo real entre clientes da mesma sala
-4. **Cliente**: Interface web que se conecta ao servidor via WebSocket
-
----
-
-## Uso Colaborativo
-
-### Compartilhando uma Sala
-
-1. Abra http://localhost:8888/editor?room=nome-da-sala
-2. Compartilhe a URL com outros usuários
-3. Todos os usuários na mesma sala verão as alterações em tempo real
-
-### Exemplo de Fluxo
-
-```
-Editor A                 Servidor              Editor B
-   |                        |                    |
-   |----(abre editor)------->|                    |
-   |                         |                    |
-   |<----(init conteúdo)-----|                    |
-   |                         |                    |
-   |                         |<----(abre editor)-|
-   |                         |                    |
-   |                         |---(init conteúdo)>|
-   |                         |                    |
-   |----(escreve texto)----->|                    |
-   |                         |----(broadcast)--->|
-   |                         |                    |
-```
-
----
-
-## Desenvolvadores
-
-Projeto desenvolvido por:
-
-| Nome | RA |
-|------|--------|
-| Pablo Henrique Strücker Sarturi | 1136331 | 
-| Mário Bernardo Balen | 1136196 | 
-
----

@@ -33,7 +33,7 @@ class MarkdownSocket(tornado.websocket.WebSocketHandler):
 
     def open(self):
         self.room_id = self.get_argument("room", "default")
-        print(f"WebSocket OPENED {self.room_id}")
+        print(f"WebSocket ABERTO {self.room_id}")
         
         # se for novo, cria
         if self.room_id not in room_clients:
@@ -63,7 +63,7 @@ class MarkdownSocket(tornado.websocket.WebSocketHandler):
                     }))
 
     def on_close(self):
-        print(f"WebSocket CLOSED {self.room_id}")
+        print(f"WebSocket FECHADO {self.room_id}")
         if self.room_id in room_clients:
             room_clients[self.room_id].discard(self) # Use discard to avoid errors if already gone
 
@@ -83,7 +83,10 @@ def make_app():
 
 
 if __name__ == "__main__":
-    app = make_app()
-    app.listen(8888)
-    print("Server running on http://localhost:8888")
-    tornado.ioloop.IOLoop.current().start()
+    try:
+        app = make_app()
+        app.listen(8888)
+        print("Servidor rodando em http://localhost:8888")
+        tornado.ioloop.IOLoop.current().start()
+    except KeyboardInterrupt:
+        print("Servidor finalizado.")
